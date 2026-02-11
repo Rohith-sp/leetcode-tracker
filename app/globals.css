@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* === REFINED NEUTRAL PALETTE === */
+    --background: 0 0% 100%;
+    --foreground: 222.2 47% 11%;
+    /* Slightly warmer, less harsh */
+
+    /* Surface Layers - Critical for depth */
+    --surface-1: 0 0% 100%;
+    /* Base (cards on background) */
+    --surface-2: 220 14% 98%;
+    /* Elevated (nested cards, hover states) */
+    --surface-3: 220 13% 95%;
+    /* Highest (active, selected) */
+
+    /* Borders - Multiple weights for hierarchy */
+    --border: 220 13% 91%;
+    --border-strong: 220 13% 85%;
+    /* For emphasis */
+    --border-subtle: 220 13% 95%;
+    /* For low-contrast dividers */
+
+    /* Muted System - Better differentiation */
+    --muted: 220 14% 96%;
+    --muted-foreground: 220 9% 46%;
+    /* Reduced saturation */
+
+    /* Secondary text - NEW layer */
+    --secondary-foreground: 220 9% 60%;
+    /* For metadata, captions */
+
+    /* Primary - Slightly desaturated for sophistication */
+    --primary: 221.2 70% 50%;
+    /* Less intense blue */
+    --primary-foreground: 210 40% 98%;
+    --primary-muted: 221.2 70% 96%;
+    /* For hover backgrounds */
+
+    /* Accent - Reserved for success/progress states */
+    --accent: 142 71% 45%;
+    /* Green, not used everywhere */
+    --accent-foreground: 144 61% 20%;
+    --accent-muted: 142 71% 96%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    /* Slightly less saturated */
+    --destructive-foreground: 0 0% 100%;
+    --destructive-muted: 0 72% 97%;
+
+    /* Card variants */
+    --card: var(--surface-1);
+    --card-foreground: var(--foreground);
+
+    /* Shadows - Layered depth */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --shadow-md: 0 2px 4px -1px rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.03);
+    --shadow-lg: 0 4px 6px -2px rgb(0 0 0 / 0.08), 0 2px 4px -2px rgb(0 0 0 / 0.04);
+
+    /* Focus ring - Professional blue */
+    --ring: 221.2 70% 50%;
+    --ring-offset: 0 0% 100%;
+
+    --radius: 0.5rem;
+    /* Consistent, not too rounded */
+  }
+
+  .dark {
+    /* === DARK MODE - IMPROVED CONTRAST === */
+    --background: 222.2 47% 6%;
+    /* Deeper, richer black */
+    --foreground: 210 40% 98%;
+
+    /* Surface Layers - More pronounced in dark mode */
+    --surface-1: 220 14% 10%;
+    /* Cards clearly elevated */
+    --surface-2: 220 14% 13%;
+    /* Hover/nested */
+    --surface-3: 220 14% 16%;
+    /* Active/selected */
+
+    /* Borders */
+    --border: 220 14% 20%;
+    --border-strong: 220 14% 28%;
+    --border-subtle: 220 14% 14%;
+
+    /* Muted */
+    --muted: 220 14% 14%;
+    --muted-foreground: 220 9% 60%;
+
+    --secondary-foreground: 220 9% 52%;
+
+    /* Primary - Brighter in dark mode */
+    --primary: 217.2 91.2% 60%;
+    --primary-foreground: 222.2 47% 6%;
+    --primary-muted: 217.2 91.2% 14%;
+
+    /* Accent */
+    --accent: 142 71% 50%;
+    --accent-foreground: 222.2 47% 6%;
+    --accent-muted: 142 71% 14%;
+
+    /* Destructive */
+    --destructive: 0 72% 58%;
+    --destructive-foreground: 222.2 47% 6%;
+    --destructive-muted: 0 72% 14%;
+
+    /* Shadows - Subtle in dark mode */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 2px 4px -1px rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-lg: 0 4px 6px -2px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.4);
+
+    --ring-offset: 222.2 47% 6%;
+  }
+}
+
+/* === TYPOGRAPHY BASE === */
+@layer base {
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: 'cv11', 'ss01';
+    /* Inter refinements */
+  }
+
+  /* Heading system with precise hierarchy */
+  h1 {
+    @apply text-3xl font-bold tracking-tight text-foreground;
+    letter-spacing: -0.025em;
+  }
+
+  h2 {
+    @apply text-2xl font-semibold tracking-tight text-foreground;
+    letter-spacing: -0.02em;
+  }
+
+  h3 {
+    @apply text-lg font-semibold text-foreground;
+    letter-spacing: -0.01em;
+  }
+
+  h4 {
+    @apply text-base font-semibold text-foreground;
+  }
+
+  /* Remove default margins for better control */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    @apply m-0;
+  }
+}
