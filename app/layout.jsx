@@ -8,6 +8,9 @@ const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
     title: 'LeetCode Tracker',
     description: 'Personal problem tracking for developers',
+    icons: {
+        icon: '/favicon.ico',
+    },
 }
 
 export default function RootLayout({ children }) {

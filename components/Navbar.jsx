@@ -1,10 +1,11 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/Button'
-import { LogOut, Menu, X, Code2 } from 'lucide-react'
+import { LogOut, Menu, X } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export function Navbar() {
@@ -50,8 +51,14 @@ export function Navbar() {
         <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center px-4 md:px-8 max-w-7xl mx-auto">
                 <Link href="/dashboard" className="mr-6 flex items-center space-x-2">
-                    <Code2 className="h-6 w-6" />
-                    <span className="font-bold">LeetTracker</span>
+                    <Image
+                        src="/logo.png"
+                        alt="LeetCode Tracker"
+                        width={32}
+                        height={32}
+                        className="h-8 w-auto"
+                    />
+                    <span className="font-bold hidden sm:inline-block">LeetTracker</span>
                 </Link>
 
                 {/* Desktop Nav */}
