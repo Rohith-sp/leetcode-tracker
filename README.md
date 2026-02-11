@@ -57,6 +57,15 @@ Copy the code from [`schema.sql`](./schema.sql) and run it in your Supabase SQL 
 ### 4. Auth Config
 In Supabase -> Authentication -> URL Configuration, set your Site URL to your Vercel domain (e.g., `https://your-app.vercel.app`).
 
+### 5. Rate Limit Configuration (Important!)
+Supabase has conservative default rate limits that may cause issues during development or when users need password resets. 
+
+**Quick Fix**: Go to Supabase → Authentication → Rate Limits and increase the limits:
+- Email Rate Limit: 10-20 per hour (development) or 6-10 per hour (production)
+- Password Reset Limit: 10 per hour (development) or 5 per hour (production)
+
+📖 **Detailed Guide**: See [`rate-limit-config.md`](./rate-limit-config.md) for complete configuration instructions.
+
 ---
 
 ## 💻 Local Development

@@ -126,6 +126,17 @@ export default function LoginPage() {
                                 required
                                 minLength={6}
                             />
+                            {!isSignUp && (
+                                <div className="text-right">
+                                    <button
+                                        type="button"
+                                        className="text-sm text-primary hover:text-primary/80 underline"
+                                        onClick={() => router.push('/forgot-password')}
+                                    >
+                                        Forgot Password?
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         {message && (
                             <div className={`text-sm ${message.type === 'error' ? 'text-destructive' : 'text-accent'} text-center`}>

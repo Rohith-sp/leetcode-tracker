@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/Button'
-import { LogOut, Menu, X } from 'lucide-react'
+import { LogOut, Menu, X, Settings } from 'lucide-react'
 import { useState, useEffect } from 'react'
 
 export function Navbar() {
@@ -41,6 +41,7 @@ export function Navbar() {
         { href: '/dashboard', label: 'Dashboard' },
         { href: '/add', label: 'Add Problem' },
         { href: '/review', label: 'Review' },
+        { href: '/settings', label: 'Settings' },
         { href: '/about', label: 'About' },
     ]
 
