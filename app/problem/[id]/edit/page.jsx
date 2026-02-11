@@ -12,13 +12,9 @@ import Link from 'next/link'
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard']
 
-export default async function EditProblemPage({ params }) {
-    const { id } = await params
-
-    return <EditProblemClient problemId={id} />
-}
-
-function EditProblemClient({ problemId }) {
+export default function EditProblemPage() {
+    const params = useParams()
+    const id = params.id
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
