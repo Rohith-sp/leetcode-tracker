@@ -41,7 +41,7 @@ function EditProblemClient({ problemId }) {
             const { data, error } = await supabase
                 .from('problems')
                 .select('*')
-                .eq('id', problemId)
+                .eq('id', id)
                 .single()
 
             if (error) {
@@ -62,7 +62,7 @@ function EditProblemClient({ problemId }) {
             setLoading(false)
         }
         fetchProblem()
-    }, [problemId, router])
+    }, [id, router])
 
     const handleTopicAdd = (e) => {
         if (e.key === 'Enter' && topicInput.trim()) {
@@ -96,12 +96,12 @@ function EditProblemClient({ problemId }) {
             key_insight: formData.key_insight,
             confidence_score: formData.confidence_score,
             revisit_status: formData.revisit_status,
-        }).eq('id', problemId)
+        }).eq('id', id)
 
         if (error) {
             alert('Error updating problem: ' + error.message)
         } else {
-            router.push(`/problem/${problemId}`)
+            router.push(`/problem/${id}`)
         }
         setSaving(false)
     }
@@ -114,7 +114,7 @@ function EditProblemClient({ problemId }) {
         const { error } = await supabase
             .from('problems')
             .delete()
-            .eq('id', problemId)
+            .eq('id', id)
 
         if (error) {
             alert('Error deleting problem: ' + error.message)
@@ -128,7 +128,7 @@ function EditProblemClient({ problemId }) {
     return (
         <div className="min-h-screen bg-background p-6 lg:p-10 max-w-4xl mx-auto space-y-6">
             <div className="flex items-center gap-4">
-                <Link href={`/problem/${problemId}`}>
+                <Link href={`/problem/${id}`}>
                     <Button variant="ghost" size="icon">
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
