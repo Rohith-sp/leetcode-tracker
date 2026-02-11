@@ -4,7 +4,7 @@ import React from 'react'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardContent } from '@/components/ui/Card'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Edit } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function ProblemList({ problems, emptyMessage = "No problems found." }) {
@@ -28,6 +28,13 @@ export function ProblemList({ problems, emptyMessage = "No problems found." }) {
                                     className="font-medium hover:text-primary transition-colors"
                                 >
                                     {problem.leetcode_link.replace('https://leetcode.com/problems/', '').replace(/\/$/, '')}
+                                </Link>
+                                <Link
+                                    href={`/problem/${problem.id}/edit`}
+                                    className="text-muted-foreground hover:text-primary transition-colors"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    <Edit className="h-4 w-4" />
                                 </Link>
                                 <a
                                     href={problem.leetcode_link}
