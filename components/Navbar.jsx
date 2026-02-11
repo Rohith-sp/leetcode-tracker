@@ -38,20 +38,19 @@ export function Navbar() {
     }
 
     const navLinks = [
-        { href: '/dashboard', label: 'Dashboard' },
-        { href: '/add', label: 'Add Problem' },
-        { href: '/review', label: 'Review' },
-        { href: '/settings', label: 'Settings' },
-        { href: '/about', label: 'About' },
+        { href: '/dashboard', label: 'Dashboard', authRequired: true },
+        { href: '/add', label: 'Add Problem', authRequired: true },
+        { href: '/review', label: 'Review', authRequired: true },
+        { href: '/settings', label: 'Settings', authRequired: true },
+        { href: '/about', label: 'About', authRequired: false },
     ]
 
-    // Don't show navbar on login page
-    if (pathname === '/login') return null
+    const isAuthPage = ['/login', '/forgot-password', '/reset-password'].includes(pathname)
 
     return (
         <nav className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center px-4 md:px-8 max-w-7xl mx-auto">
-                <Link href="/dashboard" className="mr-6 flex items-center space-x-2">
+                <Link href={user ? "/dashboard" : "/"} className="mr-6 flex items-center space-x-2">
                     <Image
                         src="/logo.png"
                         alt="LeetCode Tracker"
@@ -65,7 +64,11 @@ export function Navbar() {
                 {/* Desktop Nav */}
                 <div className="hidden md:flex md:flex-1 md:items-center md:justify-between">
                     <div className="flex gap-6 text-sm font-medium">
-                        {user && navLinks.map((link) => (
+                        {navLinks.filter(link => {
+                            if (isAuthPage) return link.href === '/about'
+                            if (!user) return link.href === '/about'
+                            return true
+                        }).map((link) => (
                             <Link
                                 key={link.href}
                                 href={link.href}
@@ -78,7 +81,7 @@ export function Navbar() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        {user && (
+                        {user && !isAuthPage && (
                             <span className="text-sm text-muted-foreground hidden lg:inline-block">
                                 Hello, {user.user_metadata?.full_name || user.email?.split('@')[0]}
                             </span>
@@ -89,9 +92,11 @@ export function Navbar() {
                                 Logout
                             </Button>
                         ) : (
-                            <Link href="/login">
-                                <Button size="sm">Login</Button>
-                            </Link>
+                            !isAuthPage && (
+                                <Link href="/login">
+                                    <Button size="sm">Login</Button>
+                                </Link>
+                            )
                         )}
                     </div>
                 </div>
@@ -107,8 +112,12 @@ export function Navbar() {
 
             {/* Mobile Nav */}
             {isMenuOpen && (
-                <div className="md:hidden border-t p-4 space-y-4 bg-background">
-                    {user && navLinks.map((link) => (
+                <div className="md:hidden border-t p-4 space-y-4 bg-background animate-in slide-in-from-top-2">
+                    {navLinks.filter(link => {
+                        if (isAuthPage) return link.href === '/about'
+                        if (!user) return link.href === '/about'
+                        return true
+                    }).map((link) => (
                         <Link
                             key={link.href}
                             href={link.href}
@@ -126,9 +135,11 @@ export function Navbar() {
                                 Logout
                             </Button>
                         ) : (
-                            <Link href="/login" onClick={() => setIsMenuOpen(false)}>
-                                <Button size="sm" className="w-full">Login</Button>
-                            </Link>
+                            !isAuthPage && (
+                                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                                    <Button size="sm" className="w-full">Login</Button>
+                                </Link>
+                            )
                         )}
                     </div>
                 </div>
