@@ -12,8 +12,13 @@ import Link from 'next/link'
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard']
 
-export default function EditProblemPage({ params }) {
-    const { id } = params
+export default async function EditProblemPage({ params }) {
+    const { id } = await params
+
+    return <EditProblemClient problemId={id} />
+}
+
+function EditProblemClient({ problemId }) {
     const router = useRouter()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -36,7 +41,7 @@ export default function EditProblemPage({ params }) {
             const { data, error } = await supabase
                 .from('problems')
                 .select('*')
-                .eq('id', id)
+                .eq('id', problemId)
                 .single()
 
             if (error) {
@@ -57,7 +62,7 @@ export default function EditProblemPage({ params }) {
             setLoading(false)
         }
         fetchProblem()
-    }, [id, router])
+    }, [problemId, router])
 
     const handleTopicAdd = (e) => {
         if (e.key === 'Enter' && topicInput.trim()) {
@@ -91,12 +96,12 @@ export default function EditProblemPage({ params }) {
             key_insight: formData.key_insight,
             confidence_score: formData.confidence_score,
             revisit_status: formData.revisit_status,
-        }).eq('id', id)
+        }).eq('id', problemId)
 
         if (error) {
             alert('Error updating problem: ' + error.message)
         } else {
-            router.push(`/problem/${id}`)
+            router.push(`/problem/${problemId}`)
         }
         setSaving(false)
     }
@@ -109,7 +114,7 @@ export default function EditProblemPage({ params }) {
         const { error } = await supabase
             .from('problems')
             .delete()
-            .eq('id', id)
+            .eq('id', problemId)
 
         if (error) {
             alert('Error deleting problem: ' + error.message)
@@ -123,7 +128,7 @@ export default function EditProblemPage({ params }) {
     return (
         <div className="min-h-screen bg-background p-6 lg:p-10 max-w-4xl mx-auto space-y-6">
             <div className="flex items-center gap-4">
-                <Link href={`/problem/${id}`}>
+                <Link href={`/problem/${problemId}`}>
                     <Button variant="ghost" size="icon">
                         <ArrowLeft className="h-4 w-4" />
                     </Button>
