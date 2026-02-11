@@ -7,7 +7,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Badge } from '@/components/ui/Badge'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/Card'
-import { ArrowLeft, ExternalLink, Calendar, CheckCircle } from 'lucide-react'
+import { ArrowLeft, ExternalLink, Calendar, CheckCircle, Edit } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export default function ProblemDetails({ params }) {
@@ -85,11 +85,18 @@ export default function ProblemDetails({ params }) {
                     <h1 className="text-xl font-bold truncate max-w-md">{problem.leetcode_link.replace('https://leetcode.com/problems/', '')}</h1>
                     <Badge variant={problem.difficulty.toLowerCase()}>{problem.difficulty}</Badge>
                 </div>
-                <a href={problem.leetcode_link} target="_blank" rel="noopener noreferrer">
-                    <Button variant="outline" size="sm" className="gap-2">
-                        Open LeetCode <ExternalLink className="h-3 w-3" />
-                    </Button>
-                </a>
+                <div className="flex gap-2">
+                    <Link href={`/problem/${id}/edit`}>
+                        <Button variant="outline" size="sm" className="gap-2">
+                            <Edit className="h-3 w-3" /> Edit
+                        </Button>
+                    </Link>
+                    <a href={problem.leetcode_link} target="_blank" rel="noopener noreferrer">
+                        <Button variant="outline" size="sm" className="gap-2">
+                            Open LeetCode <ExternalLink className="h-3 w-3" />
+                        </Button>
+                    </a>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

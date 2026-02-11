@@ -23,15 +23,13 @@ export default function Dashboard() {
                 return
             }
 
-            // Fetch "Due Soon" problems
-            const { data: dueProblems } = await supabase
+            // Fetch ALL problems (not just "Due Soon")
+            const { data: allProblems } = await supabase
                 .from('problems')
                 .select('*')
-                .eq('revisit_status', 'soon')
-                .order('last_reviewed_at', { ascending: true, nullsFirst: true })
-                .limit(5)
+                .order('created_at', { ascending: false })
 
-            setProblems(dueProblems || [])
+            setProblems(allProblems || [])
 
             // Fetch stats (safe handling)
             const getCount = async (query) => {

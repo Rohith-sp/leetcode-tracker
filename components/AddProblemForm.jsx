@@ -28,17 +28,6 @@ export function AddProblemForm() {
 
     const [topicInput, setTopicInput] = useState('')
 
-    // Auto-calculate revisit status based on logic rules
-    useEffect(() => {
-        const score = formData.confidence_score
-        let status = 'soon'
-        if (score <= 2) status = 'soon'
-        else if (score === 3) status = 'later'
-        else if (score >= 4) status = 'no'
-
-        setFormData(prev => ({ ...prev, revisit_status: status }))
-    }, [formData.confidence_score])
-
     const handleTopicAdd = (e) => {
         if (e.key === 'Enter' && topicInput.trim()) {
             e.preventDefault()
@@ -139,6 +128,23 @@ export function AddProblemForm() {
                                     </Button>
                                 ))}
                             </div>
+                        </div>
+                    </div>
+
+                    <div className="grid gap-2">
+                        <label className="text-sm font-medium">Revisit Status</label>
+                        <div className="flex gap-2">
+                            {['soon', 'later', 'no'].map(status => (
+                                <Button
+                                    key={status}
+                                    type="button"
+                                    variant={formData.revisit_status === status ? "default" : "outline"}
+                                    onClick={() => setFormData({ ...formData, revisit_status: status })}
+                                    className="flex-1 capitalize"
+                                >
+                                    {status}
+                                </Button>
+                            ))}
                         </div>
                     </div>
 
