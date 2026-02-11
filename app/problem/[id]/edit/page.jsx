@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
-import { Loader2, ArrowLeft } from 'lucide-react'
+import { Loader2, ArrowLeft, Trash2 } from 'lucide-react'
 import Link from 'next/link'
 
 const DIFFICULTIES = ['Easy', 'Medium', 'Hard']
@@ -99,6 +99,23 @@ export default function EditProblemPage({ params }) {
             router.push(`/problem/${id}`)
         }
         setSaving(false)
+    }
+
+    const handleDelete = async () => {
+        if (!confirm('Are you sure you want to delete this problem? This action cannot be undone.')) {
+            return
+        }
+
+        const { error } = await supabase
+            .from('problems')
+            .delete()
+            .eq('id', id)
+
+        if (error) {
+            alert('Error deleting problem: ' + error.message)
+        } else {
+            router.push('/dashboard')
+        }
     }
 
     if (loading) return <div className="p-10 text-center">Loading...</div>
@@ -234,14 +251,25 @@ export default function EditProblemPage({ params }) {
                             />
                         </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end gap-2">
-                        <Link href={`/problem/${id}`}>
-                            <Button type="button" variant="ghost">Cancel</Button>
-                        </Link>
-                        <Button type="submit" disabled={saving}>
-                            {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                            Save Changes
+                    <CardFooter className="flex justify-between gap-2">
+                        <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            onClick={handleDelete}
+                            className="gap-2"
+                        >
+                            <Trash2 className="h-4 w-4" /> Delete Problem
                         </Button>
+                        <div className="flex gap-2">
+                            <Link href={`/problem/${id}`}>
+                                <Button type="button" variant="ghost">Cancel</Button>
+                            </Link>
+                            <Button type="submit" disabled={saving}>
+                                {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                                Save Changes
+                            </Button>
+                        </div>
                     </CardFooter>
                 </Card>
             </form>
