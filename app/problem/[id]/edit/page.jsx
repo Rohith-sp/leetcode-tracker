@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
