@@ -14,7 +14,38 @@ export default function LoginPage() {
     const [isSignUp, setIsSignUp] = useState(false)
     const [loading, setLoading] = useState(false)
     const [message, setMessage] = useState(null)
+    const [resendCooldown, setResendCooldown] = useState(0)
     const router = useRouter()
+
+    useEffect(() => {
+        let timer
+        if (resendCooldown > 0) {
+            timer = setInterval(() => {
+                setResendCooldown((curr) => curr - 1)
+            }, 1000)
+        }
+        return () => clearInterval(timer)
+    }, [resendCooldown])
+
+    const handleResend = async () => {
+        if (resendCooldown > 0) return
+
+        // Optimistic UI update
+        setMessage({ type: 'success', text: 'Resending verification email...', showResend: true })
+        setResendCooldown(60) // Start 60s cooldown
+
+        const { error } = await supabase.auth.resend({
+            type: 'signup',
+            email: email,
+        })
+
+        if (error) {
+            setMessage({ type: 'error', text: `Failed to resend: ${error.message}`, showResend: true })
+            setResendCooldown(0) // Reset if failed immediately
+        } else {
+            setMessage({ type: 'success', text: 'Verification email resent! Check your inbox.', showResend: true })
+        }
+    }
 
     const handleAuth = async (e) => {
         e.preventDefault()
@@ -42,7 +73,13 @@ export default function LoginPage() {
                 password,
             })
             if (error) {
-                setMessage({ type: 'error', text: error.message })
+                // Check for specific error message regarding email confirmation
+                const isEmailConfirmationError = error.message.toLowerCase().includes('email not confirmed')
+                setMessage({
+                    type: 'error',
+                    text: error.message,
+                    showResend: isEmailConfirmationError
+                })
             } else {
                 router.push('/dashboard')
             }
@@ -91,9 +128,23 @@ export default function LoginPage() {
                             />
                         </div>
                         {message && (
-                            <p className={`text-sm ${message.type === 'error' ? 'text-red-500' : 'text-green-500'}`}>
-                                {message.text}
-                            </p>
+                            <div className={`text-sm ${message.type === 'error' ? 'text-destructive' : 'text-accent'} text-center`}>
+                                <p>{message.text}</p>
+                                {message.showResend && (
+                                    <Button
+                                        type="button"
+                                        variant="link"
+                                        size="sm"
+                                        className="mt-1 h-auto p-0"
+                                        onClick={handleResend}
+                                        disabled={resendCooldown > 0}
+                                    >
+                                        {resendCooldown > 0
+                                            ? `Resend available in ${resendCooldown}s`
+                                            : "Resend Confirmation Email"}
+                                    </Button>
+                                )}
+                            </div>
                         )}
                         <div className="flex flex-col gap-2">
                             <Button type="submit" disabled={loading}>
@@ -107,6 +158,7 @@ export default function LoginPage() {
                                     onClick={() => {
                                         setIsSignUp(!isSignUp)
                                         setMessage(null)
+                                        setResendCooldown(0)
                                     }}
                                 >
                                     {isSignUp ? 'Sign In' : 'Sign Up'}
