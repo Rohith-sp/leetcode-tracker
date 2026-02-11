@@ -90,9 +90,12 @@ export function AddProblemForm() {
                         <label className="text-sm font-medium">LeetCode Link</label>
                         <Input
                             required
+                            type="url"
+                            pattern="https://leetcode\.com/problems/.*"
                             placeholder="https://leetcode.com/problems/..."
                             value={formData.leetcode_link}
                             onChange={(e) => setFormData({ ...formData, leetcode_link: e.target.value })}
+                            title="Please enter a valid LeetCode problem URL (https://leetcode.com/problems/...)"
                         />
                     </div>
 
